@@ -30,34 +30,13 @@ orderRouter.get("/admin/order", async (req, res) => {
     }
 })
 
-orderRouter.post("/", async (req, res) => {
-    const { 
-        product_img,
-    product_title,
-    product_price,
-    product_category,
-    quantity,
-    category,
-    delivered,
-    productId,
-    userId
-    } = req.body
-
-    let orders ={ 
-        product_img,
-    product_title,
-    product_price,
-    product_category,
-    quantity,
-    category,
-    delivered,
-    productId,
-    userId
-    }
+orderRouter.post("/", async(req, res) => {
+    const order = req.body
+   // console.log(order)
     try {
-       let order =  new OrderModel(orders)
-       await  order.save()
-    res.send({ msg: "Order Placed Successfully",orders })
+       let orders =  await OrderModel.insertMany(order)
+      
+    res.send({ msg: "Order Placed Successfully"})
     } catch (error) {
         res.send({
             err: "Can't place Orders",
